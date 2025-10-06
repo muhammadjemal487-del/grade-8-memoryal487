@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikael's Photo Gallery</title>
+    <style>
+        /* Body & Background */
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+
+        /* Heading */
+        h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Gallery Images */
+        .mi {
+            width: 220px;
+            margin: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .mi:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(255, 65, 108, 0.9);
+            border: 3px solid #ff416c;
+            filter: brightness(1.2);
+        }
+
+        /* Lightbox */
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.5);
+        }
+
+        #lightbox span {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 50px;
+            color: #ff416c;
+            cursor: pointer;
+            text-shadow: 2px 2px 15px black;
+        }
+
+        /* Comment Box */
+        .comment-box {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .comment-box h2 {
+            text-align: center;
+            color: #ff416c;
+            text-shadow: 2px 2px 8px black;
+            margin-bottom: 20px;
+        }
+
+        .comment-box input,
+        .comment-box textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #ff416c;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            outline: none;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .comment-box input:focus,
+        .comment-box textarea:focus {
+            border-color: #ff4b2b;
+            box-shadow: 0 0 15px rgba(255, 65, 108, 0.7);
+        }
+
+        .comment-box button {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 65, 108, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .comment-box button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 65, 108, 0.9);
+        }
+
+        /* Comments List */
+        .comments {
+            margin-top: 20px;
+        }
+
+        .comment {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            margin-bottom: 12px;
+            border-left: 5px solid #ff416c;
+            border-radius: 12px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .comment .time {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .comment button {
+            margin-left: 5px;
+            padding: 5px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: background 0.3s;
+        }
+
+        .comment button:hover {
+            background: rgba(255, 65, 108, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Mikael እብዱ</h1>
+
+    <!-- Gallery -->
+    <img class="mi" src="mi1.jpg" alt="Mikael smiling">
+    <img class="mi" src="mi2.jpg" alt="Mikael outdoors">
+    <img class="mi" src="mi3.jpg" alt="Mikael portrait">
+    <img class="mi" src="mi4.jpg" alt="Mikael fun">
+    <img class="mi" src="mi5.jpg" alt="Mikael action">
+    <img class="mi" src="mi6.jpg" alt="Mikael friends">
+
+    <!-- Lightbox -->
+    <div id="lightbox">
+        <span onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Comment Box -->
+    <div class="comment-box">
+        <h2>💬 Comments</h2>
+        <input type="text" id="name" placeholder="Your Name (optional)">
+        <textarea id="comment" placeholder="Write your comment..." maxlength="500"></textarea>
+        <button id="postBtn">Post Comment</button>
+        <div class="comments" id="comments"></div>
+    </div>
+
+    <script>
+        // Lightbox
+        const images = document.querySelectorAll('.mi');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        images.forEach(img => {
+            img.addEventListener('click', () => {
+                lightbox.style.display = 'flex';
+                lightboxImg.src = img.src;
+            });
+        });
+        function closeLightbox() { lightbox.style.display = 'none'; }
+
+        // Comments with localStorage
+        const STORAGE_KEY = "mika_comments";
+        const USER_KEY = "mika_user_id";
+
+        let userId = localStorage.getItem(USER_KEY);
+        if (!userId) { userId = "user-" + Math.random().toString(36).substr(2) + Date.now(); localStorage.setItem(USER_KEY, userId); }
+
+        const nameInput = document.getElementById('name');
+        const commentInput = document.getElementById('comment');
+        const postBtn = document.getElementById('postBtn');
+        const commentList = document.getElementById('comments');
+
+        let comments = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+        function escapeHtml(text) { return text.replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m])); }
+        function timeAgo(ts) {
+            const diff = Date.now() - ts;
+            const sec = Math.floor(diff / 1000);
+            if (sec < 60) return sec + "s ago";
+            const min = Math.floor(sec / 60);
+            if (min < 60) return min + "m ago";
+            const hr = Math.floor(min / 60);
+            if (hr < 24) return hr + "h ago";
+            const d = Math.floor(hr / 24);
+            return d + "d ago";
+        }
+
+        function renderComments() {
+            commentList.innerHTML = "";
+            if (comments.length === 0) { commentList.innerHTML = "<p style='color:#ccc'>No comments yet — be the first!</p>"; return; }
+            comments.slice().reverse().forEach(c => {
+                const div = document.createElement('div');
+                div.className = 'comment';
+                const isOwner = c.userId === userId;
+                div.innerHTML = `<strong>${escapeHtml(c.name || "Anonymous")}</strong> <span class="time">${timeAgo(c.ts)}</span>
+            <p>${escapeHtml(c.text)}</p>
+            ${isOwner ? `<button onclick="editComment('${c.id}')">Edit</button> <button onclick="deleteComment('${c.id}')">Delete</button>` : ''}`;
+                commentList.appendChild(div);
+            });
+        }
+
+        function saveComments() { localStorage.setItem(STORAGE_KEY, JSON.stringify(comments)); }
+
+        postBtn.addEventListener('click', () => {
+            const text = commentInput.value.trim();
+            if (!text) return;
+            const newComment = { id: Date.now().toString(), name: nameInput.value.trim(), text, ts: Date.now(), userId };
+            comments.push(newComment);
+            saveComments();
+            renderComments();
+            commentInput.value = '';
+        });
+
+        window.deleteComment = id => {
+            const c = comments.find(x => x.id === id);
+            if (!c || c.userId !== userId) { alert("You can only delete your own comments."); return; }
+            if (!confirm("Delete this comment?")) return;
+            comments = comments.filter(x => x.id !== id);
+            saveComments();
+            renderComments();
+        };
+
+        window.editComment = id => {
+            const c = comments.find(x => x.id === id);
+            if (!c || c.userId !== userId) { alert("You can only edit your own comments."); return; }
+            nameInput.value = c.name;
+            commentInput.value = c.text;
+            comments = comments.filter(x => x.id !== id);
+            saveComments();
+            renderComments();
+        };
+
+        renderComments();
+    </script>
+</body>
+
+</html>

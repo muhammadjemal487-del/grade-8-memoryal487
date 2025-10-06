@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikael Tamrat Gallery</title>
+    <style>
+        /* === BODY & BACKGROUND === */
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: linear-gradient(135deg, #101010, #1a1a1a, #222);
+            text-align: center;
+            margin: 0;
+            padding: 30px;
+            color: #f2f2f2;
+        }
+
+        h1 {
+            font-size: 45px;
+            color: #4eff9d;
+            text-shadow: 0 0 20px #41ffb6, 0 0 40px #00ff91;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        /* === GALLERY === */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 2px solid #00ff88;
+            box-shadow: 0 0 25px rgba(0, 255, 170, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1) rotate(1deg);
+            box-shadow: 0 0 35px rgba(0, 255, 140, 0.8), 0 0 60px rgba(0, 255, 170, 0.5);
+            filter: brightness(1.3) saturate(1.4);
+        }
+
+        /* === TELEGRAM BUTTON === */
+        .bnt {
+            display: inline-block;
+            margin: 25px 0 60px 0;
+            padding: 18px 45px;
+            font-size: 22px;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #00ff88, #4affb0);
+            color: #101010;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 0 25px #00ff88, 0 0 60px rgba(0, 255, 170, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .bnt:hover {
+            transform: scale(1.1);
+            background: linear-gradient(90deg, #4effb6, #00ffc3);
+            box-shadow: 0 0 35px #00ffc3, 0 0 80px rgba(0, 255, 195, 0.9);
+        }
+
+        /* === COMMENT SECTION === */
+        .comment-section {
+            max-width: 800px;
+            margin: 60px auto;
+            text-align: left;
+            background: rgba(20, 20, 20, 0.95);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 0 35px rgba(0, 255, 150, 0.7);
+            border: 2px solid #00ff99;
+        }
+
+        .comment-section h2 {
+            text-align: center;
+            color: #00ff88;
+            font-size: 26px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px #00ff88;
+        }
+
+        input[type=text],
+        textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border: 1px solid #00ffaa;
+            border-radius: 10px;
+            background: #111;
+            color: #fff;
+            font-size: 15px;
+            box-shadow: inset 0 0 10px rgba(0, 255, 170, 0.3);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #bbb;
+        }
+
+        button.post {
+            padding: 14px 25px;
+            background: linear-gradient(90deg, #00ff99, #00ffc8);
+            color: #111;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 150, 0.8);
+        }
+
+        button.post:hover {
+            transform: scale(1.08);
+            background: linear-gradient(90deg, #4affb0, #00ffe0);
+            box-shadow: 0 0 40px rgba(0, 255, 210, 0.9);
+        }
+
+        /* === COMMENTS === */
+        .comment {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #1b1b1b;
+            border: 1px solid #00ff99;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 0 15px rgba(0, 255, 120, 0.3);
+        }
+
+        .comment img.avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #00ffaa;
+            box-shadow: 0 0 10px #00ffb6;
+        }
+
+        .comment .name {
+            font-weight: bold;
+            color: #00ffcc;
+        }
+
+        .comment .time {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .comment .text {
+            margin-top: 5px;
+            color: #eee;
+        }
+
+        .comment-actions button {
+            background: #111;
+            color: #00ffb6;
+            margin-right: 5px;
+            border: 1px solid #00ffaa;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .comment-actions button:hover {
+            background: #00ffb6;
+            color: #111;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔥 Mikael Tamrat Gallery 🔥</h1>
+
+    <div class="gallery">
+        <img src="ki.jpg" alt="">
+        <img src="ki2.jpg" alt="">
+        <img src="ki3.jpg" alt="">
+        <img src="ki4.jpg" alt="">
+        <img src="ki5.jpg" alt="">
+        <img src="ki6.jpg" alt="">
+        <img src="ki71.jpg" alt="">
+    </div>
+
+    <a href="https://t.me/YourTelegramHandle" class="bnt">Join Telegram</a>
+
+    <div class="comment-section">
+        <h2>💬 Leave a Comment</h2>
+        <input type="text" id="name" placeholder="Your name (optional)">
+        <textarea id="comment" placeholder="Write your comment..." maxlength="500"></textarea>
+        <button class="post" id="postBtn">Post Comment</button>
+        <div id="comments"></div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = "ab_comments_v1";
+        const USER_KEY = "ab_user_id";
+
+        let userId = localStorage.getItem(USER_KEY);
+        if (!userId) {
+            userId = "user-" + Math.random().toString(36).substring(2) + Date.now();
+            localStorage.setItem(USER_KEY, userId);
+        }
+
+        function el(q) { return document.querySelector(q); }
+
+        function escapeHtml(text) {
+            return text.replace(/[&<>"']/g, m => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+            }[m]));
+        }
+
+        function timeAgo(ts) {
+            const diff = Date.now() - ts;
+            const sec = Math.floor(diff / 1000);
+            if (sec < 60) return sec + "s ago";
+            const min = Math.floor(sec / 60);
+            if (min < 60) return min + "m ago";
+            const hr = Math.floor(min / 60);
+            if (hr < 24) return hr + "h ago";
+            const d = Math.floor(hr / 24);
+            return d + "d ago";
+        }
+
+        const nameInput = el("#name");
+        const commentInput = el("#comment");
+        const postBtn = el("#postBtn");
+        const commentsWrap = el("#comments");
+
+        let comments = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+        function renderComments() {
+            commentsWrap.innerHTML = "";
+            if (comments.length === 0) {
+                commentsWrap.innerHTML = "<p style='color:#888;text-align:center;'>No comments yet — be the first!</p>";
+                return;
+            }
+            comments.slice().reverse().forEach(c => {
+                const div = document.createElement("div");
+                div.className = "comment";
+                const isOwner = c.userId === userId;
+                div.innerHTML = `
+            <img src="user1.jpg" alt="User Avatar" class="avatar">
+            <div class="comment-content">
+                <div class="name">${escapeHtml(c.name || "Anonymous")}</div>
+                <div class="time">${timeAgo(c.ts)}</div>
+                <div class="text">${escapeHtml(c.text)}</div>
+                <div class="comment-actions">
+                    ${isOwner ? `<button onclick="editComment('${c.id}')">Edit</button>
+                    <button onclick="deleteComment('${c.id}')">Delete</button>` : ""}
+                </div>
+            </div>`;
+                commentsWrap.appendChild(div);
+            });
+        }
+
+        function saveComments() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+        }
+
+        postBtn.addEventListener("click", () => {
+            const text = commentInput.value.trim();
+            if (!text) return;
+            const newComment = {
+                id: Date.now().toString(),
+                name: nameInput.value.trim(),
+                text,
+                ts: Date.now(),
+                userId
+            };
+            comments.push(newComment);
+            saveComments();
+            renderComments();
+            commentInput.value = "";
+        });
+
+        window.deleteComment = id => {
+            const c = comments.find(c => c.id === id);
+            if (!c || c.userId !== userId) return alert("You can only delete your own comments.");
+            if (!confirm("Delete this comment?")) return;
+            comments = comments.filter(x => x.id !== id);
+            saveComments();
+            renderComments();
+        };
+
+        window.editComment = id => {
+            const c = comments.find(c => c.id === id);
+            if (!c || c.userId !== userId) return alert("You can only edit your own comments.");
+            const newText = prompt("Edit your comment:", c.text);
+            if (newText && newText.trim()) {
+                c.text = newText.trim();
+                saveComments();
+                renderComments();
+            }
+        };
+
+        renderComments();
+    </script>
+
+</body>
+
+</html>
